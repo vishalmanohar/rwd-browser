@@ -25,6 +25,10 @@
         <img ng-src="{{file.diff}}" class = "img"/> 
         <img ng-src="{{file.fail}}" class = "img"/>
       <div>
+        <div ng-if = "file.fail">
+          <input type = "button" ng-click = "promote(file)" value = "Promote" ng-disabled = "file.promoted"/>
+          <span ng-show = "file.promoted">Promoted to baseline</span>
+        </div>
     </div>
   </div>
 
@@ -38,7 +42,13 @@
         $http.get('/files/' + device).success(function(data){
           $scope.files = data.files;
         });
-      }
+      };
+
+      $scope.promote = function(file){
+        $http.post('/promote', {file :  file.diff, device:  $scope.device}).success(function(){
+            file.promoted = true;
+        }); 
+      };
       $scope.show('tablet');
     }]);
     </script>
