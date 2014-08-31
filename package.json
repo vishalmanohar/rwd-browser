@@ -1,0 +1,9 @@
+{
+    "name": "rwd-browser",
+    "description": "RWD Test Result Browser",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "express": "4.x"
+    }
+}
