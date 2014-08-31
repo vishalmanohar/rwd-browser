@@ -9,8 +9,14 @@
   <link rel="stylesheet" href="css/app.css"/>
 </head>
 <body>
-  <h2>RWD Test Results</h2>
   <div ng-controller="FileBrowser" style = "width:100%">
+    <h2>RWD Test Results for {{device}}</h2>
+    <div class = "device-selection">
+      Select device:
+      <a href ng-click = "show('desktop')">Desktop</a>
+      <a href ng-click = "show('tablet')">Tablet</a>
+      <a href ng-click = "show('mobile')">Mobile</a>
+    </div>
     <div><input type="checkbox" ng-model="showFailedOnly"> Show Failed Only</div>
     <div ng-repeat="file in files" class = "file-item"  ng-hide = "showFailedOnly && !file.fail">
       <h3>{{file.name}}</h3>
@@ -27,10 +33,13 @@
   angular.module('myApp', [])
     .controller('FileBrowser', ['$scope', '$http', function($scope, $http) {
       $scope.showFailedOnly = true;
-      $http.get('/files').success(function(data){
-        $scope.files = data.files;
-        $scope.dirName = data.dir;
-      });
+      $scope.show = function(device){
+        $scope.device = device;
+        $http.get('/files/' + device).success(function(data){
+          $scope.files = data.files;
+        });
+      }
+      $scope.show('tablet');
     }]);
     </script>
 </body>
